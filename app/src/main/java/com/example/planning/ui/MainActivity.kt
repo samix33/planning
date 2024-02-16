@@ -29,7 +29,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.planning.ui.feature.MainScreen
 import com.example.planning.ui.feature.NotProjectView
+import com.example.planning.ui.feature.ProjectScreen
 import com.example.planning.ui.theme.*
+import com.example.planning.util.Mysreens
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -40,22 +42,36 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            PlanningUi()
         }
     }
 }
 @Composable
 fun PlanningUi() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "mainScreen"){
-        composable("mainScreen"){
+    NavHost(navController = navController, startDestination = Mysreens.MainScreen.route){
+        composable(Mysreens.MainScreen.route){
             MainScreen()
         }
-        composable("projectScreen"){
-
+        composable(Mysreens.ProjectScreen.route){
+            ProjectScreen()
+        }
+        composable(Mysreens.DetailsProjectScreen.route){
+            DetailsProjectScreen()
+        }
+        composable(Mysreens.NotesScreen.route){
+            NotesScreen()
         }
     }
 
+}
+
+fun NotesScreen() {
+
+}
+
+@Composable
+fun DetailsProjectScreen() {
 }
 
 

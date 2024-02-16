@@ -26,13 +26,13 @@ fun Preview() {
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 16.dp)
         ) {
-            ProjectScreen{}
+            ProjectScreen()
         }
     }
 }
 
 @Composable
-fun ProjectScreen(onclick : () -> Unit) {
+fun ProjectScreen() {
     Surface(modifier = Modifier.size(850.dp)) {
         Box(
             modifier = Modifier
@@ -40,7 +40,7 @@ fun ProjectScreen(onclick : () -> Unit) {
                 .background(backgroundMain),
         ) {
 
-            BottomAdd(onclick)
+
         }
 
     }
