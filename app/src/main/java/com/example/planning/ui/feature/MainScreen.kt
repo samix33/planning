@@ -36,16 +36,20 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 fun MainScreen() {
-    Surface(modifier = Modifier.fillMaxSize(), color = backgroundMain) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 16.dp)
-        ) {
-            Toptolbar()
-            Spacer(Modifier.size(16.dp))
-            SimpleTabLayout()
+    Scaffold(floatingActionButtonPosition = FabPosition.Center , floatingActionButton = { BottomAdd {}}) {
+
+
+        Surface(modifier = Modifier.fillMaxSize(), color = backgroundMain) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 16.dp)
+            ) {
+                Toptolbar()
+                Spacer(Modifier.size(16.dp))
+                SimpleTabLayout()
+            }
         }
     }
 }
@@ -92,6 +96,7 @@ fun SimpleTabLayout() {
     val tabitem = listOf("کار ها", "برنامه ریزی", "یادداشت ها")
     val pagestate = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
+
     Surface(color = backgroundMain) {
         Box {
             Column {
@@ -176,7 +181,6 @@ fun SimpleTabLayout() {
                 }
 
             }
-            BottomAdd{}
         }
 
     }
@@ -184,7 +188,7 @@ fun SimpleTabLayout() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BottomAdd(onclick : () -> Unit){
-    Card(
+    FloatingActionButton(
         shape = RoundedCornerShape(38.dp),
         backgroundColor = Progressbar,
         modifier = Modifier.size(80.dp, 40.dp),
@@ -199,12 +203,13 @@ fun BottomAdd(onclick : () -> Unit){
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = null,
-                    tint = Color.White
+                    tint = Color.White,
+                    modifier = Modifier.padding(bottom = 5.dp)
                 )
                 Text(
                     text = "Add",
                     color = Color.White,
-                    style = TextStyle(fontSize = 14.sp)
+                    style = TextStyle(fontSize = 14.sp),
                 )
             }
 
