@@ -9,5 +9,5 @@ data class Projectdata(
     val name: String,
     val Priority: String,
     val progressbar: Int,
-    val time : List<String>
+    val time : ArrayList<String>
 )

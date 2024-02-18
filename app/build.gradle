@@ -80,6 +80,8 @@ dependencies {
     implementation "dev.burnoo:cokoin-android-viewmodel:0.3.2"
     implementation "dev.burnoo:cokoin-android-navigation:0.3.2"
 
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
     // LiveData-State
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 

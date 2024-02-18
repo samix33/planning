@@ -2,9 +2,11 @@ package com.example.planning.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.planning.data.projectdata
+import androidx.room.TypeConverters
+import com.example.planning.data.Projectdata
 
-@Database(entities = [projectdata::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
+@Database(entities = [Projectdata::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun projectDao(): ProjectDao
 
