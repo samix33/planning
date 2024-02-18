@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "project_table")
-data class projectdata(
+data class Projectdata(
     @PrimaryKey
     val name: String,
     val Priority: String,

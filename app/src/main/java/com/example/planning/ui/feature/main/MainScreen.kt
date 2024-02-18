@@ -1,4 +1,4 @@
-package com.example.planning.ui.feature
+package com.example.planning.ui.feature.main
 
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.background
@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 fun MainScreen() {
-    Scaffold(floatingActionButtonPosition = FabPosition.Center , floatingActionButton = { BottomAdd {}}) {
+    Scaffold(floatingActionButtonPosition = FabPosition.Center , floatingActionButton = { BottomAdd {} }) {
 
 
         Surface(modifier = Modifier.fillMaxSize(), color = backgroundMain) {

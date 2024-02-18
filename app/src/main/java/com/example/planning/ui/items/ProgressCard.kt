@@ -1,4 +1,4 @@
-package com.example.planning.ui.feature
+package com.example.planning.ui.items
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke

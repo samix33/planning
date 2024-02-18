@@ -1,16 +1,16 @@
 package com.example.planning.db
 
 import androidx.room.*
-import com.example.planning.data.projectdata
+import com.example.planning.data.Projectdata
 
 @Dao
 interface ProjectDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrUpdate(projectDao: List<projectdata>)
+    suspend fun insertOrUpdate(projectDao: List<Projectdata>)
 
     @Query("SELECT * FROM project_table")
-    suspend fun getAll(): List<projectdata>
+    suspend fun getAll(): List<Projectdata>
 
     @Delete
-    suspend fun delethestory(projectDao : projectdata )
+    suspend fun deletProject(projectDao : Projectdata)
 }

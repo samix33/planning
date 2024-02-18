@@ -1,4 +1,4 @@
-package com.example.planning.ui.feature
+package com.example.planning.ui.feature.detailProject
 
 import androidx.compose.runtime.Composable
 
