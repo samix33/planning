@@ -18,7 +18,7 @@ val myModules   = module {
     single { Room.databaseBuilder(androidContext(), AppDatabase::class.java, "app_dataBase.db").build() }
     viewModel{DetailNotesViewModel()}
     viewModel{DetailProjectViewModel(get<AppDatabase>().projectDao())}
-    viewModel{NotesViewModel()}
+    viewModel{NotesViewModel(get<AppDatabase>().notesDao())}
     viewModel{PlanningViewModel()}
     viewModel{ MainViewModel() }
     viewModel{ProjectViewModel( get<AppDatabase>().projectDao())}

@@ -5,6 +5,6 @@ import android.app.Application
 class Myapp:Application() {
 
     companion object{
-         var page : List<String> = listOf("Project","")
+        var page: Int = 0
     }
 }

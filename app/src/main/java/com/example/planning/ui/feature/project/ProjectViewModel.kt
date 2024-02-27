@@ -37,6 +37,7 @@ class ProjectViewModel(
 
         }
     }
+
     fun delethestoryall() {
         viewModelScope.launch {
             projectDao.deleteAll()
@@ -44,7 +45,7 @@ class ProjectViewModel(
         }
     }
 
-        fun addProject() {
+    fun addProject() {
             val data = Projectdata(
                 name = name.value.toString(),
                 detail = detail.value.toString(),
@@ -55,4 +56,5 @@ class ProjectViewModel(
             )
             insertOrUpdate(data)
         }
+
     }

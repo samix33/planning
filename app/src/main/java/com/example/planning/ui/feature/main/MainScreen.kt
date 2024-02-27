@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -14,11 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,27 +22,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.planning.data.Projectdata
+import com.example.planning.ui.feature.notes.NoteScreen
 import com.example.planning.ui.feature.project.ProjectScreen
 import com.example.planning.ui.feature.project.ProjectViewModel
-import com.example.planning.ui.items.Dialog
-import com.example.planning.ui.items.ProgressCard
+import com.example.planning.ui.items.dialog.DialogNotes
+import com.example.planning.ui.items.dialog.DialogProject
 import com.example.planning.ui.theme.Progressbar
 import com.example.planning.ui.theme.backgroundMain
 import com.example.planning.ui.theme.textcolor
 import com.example.planning.util.Myapp
-import com.example.planning.util.Mysreens
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.navigation.getNavViewModel
 import kotlinx.coroutines.launch
 
 @Preview
 @Composable
 fun MainScreen() {
+    val page1 = remember {
+        mutableStateOf(0)
+    }
+
     val viewModel = getNavViewModel<MainViewModel>()
     val viewModelProject = getNavViewModel<ProjectViewModel>()
     Scaffold(floatingActionButtonPosition = FabPosition.Center, floatingActionButton = {
@@ -57,7 +53,6 @@ fun MainScreen() {
 
         }
     }) {
-
         Surface(modifier = Modifier.fillMaxSize(), color = backgroundMain) {
             Column(
                 modifier = Modifier
@@ -67,21 +62,42 @@ fun MainScreen() {
             ) {
                 Toptolbar()
                 Spacer(Modifier.size(16.dp))
-                SimpleTabLayout()
+                SimpleTabLayout(page1)
                 if (viewModel.isDialogShown) {
-                    Dialog(onConfirm = {
-                        viewModelProject.addProject()
-                        viewModel.onDismisDialog()
+                    Log.v("Tacdv",page1.value.toString())
+                    if ( page1.value == 1) {
+                        DialogProject(onConfirm = {
+                            viewModelProject.addProject()
+                            viewModel.onDismisDialog()
 
-                    }, onDismis = {
-                        viewModel.onDismisDialog()
+                        }, onDismis = {
+                            viewModel.onDismisDialog()
 
-                    })
+                        })
+                    }else if (page1.value == 3){
+                        DialogNotes(onConfirm = {
+                            viewModel.onDismisDialog()
+
+                        }, onDismis = {
+                            viewModel.onDismisDialog()
+
+                        })
+                    }else {
+                        DialogNotes(onConfirm = {
+                            viewModel.onDismisDialog()
+
+                        }, onDismis = {
+                            viewModel.onDismisDialog()
+
+                        })}
+
+
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun Toptolbar() {
@@ -121,11 +137,10 @@ fun Toptolbar() {
 
 @Composable
 @OptIn(ExperimentalPagerApi::class)
-fun SimpleTabLayout() {
+fun SimpleTabLayout(page1: MutableState<Int>) {
     val tabitem = listOf("کار ها", "برنامه ریزی", "یادداشت ها")
     val pagestate = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
-
     Surface(color = backgroundMain) {
         Box {
             Column {
@@ -197,12 +212,12 @@ fun SimpleTabLayout() {
                 ) { page ->
                     if (tabitem[page] == "کار ها") {
                         ProjectScreen()
-
+                        page1.value = 1
                     } else if (tabitem[page] == "برنامه ریزی") {
-                        Text(text = "2", modifier = Modifier.padding(50.dp), color = Color.White)
-
+                        page1.value = 2
                     } else {
-                        Text(text = "3", modifier = Modifier.padding(50.dp), color = Color.White)
+                        page1.value = 3
+                        NoteScreen()
 
                     }
 

@@ -1,58 +1,34 @@
-package com.example.planning.ui.items
+package com.example.planning.ui.items.dialog
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.R
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Bottom
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.zIndex
-import com.example.planning.data.Projectdata
 import com.example.planning.ui.feature.project.ProjectViewModel
 import com.example.planning.ui.theme.*
 import dev.burnoo.cokoin.navigation.getNavViewModel
-import kotlinx.coroutines.delay
 
-@Composable
-fun PreViewCard() {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp), color = backgroundMain
-    ) {
-
-    }
-}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Dialog(
+fun DialogProject(
     onConfirm: () -> Unit,
     onDismis: () -> Unit,
 ) {
