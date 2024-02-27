@@ -13,4 +13,7 @@ interface ProjectDao {
 
     @Delete
     suspend fun deletProject(projectDao : Projectdata)
+
+    @Query("DELETE FROM project_table")
+    suspend fun deleteAll()
 }

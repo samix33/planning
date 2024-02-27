@@ -1,8 +1,11 @@
 package com.example.planning.ui.feature.main
 
+import android.util.Log
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -13,6 +16,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -24,20 +28,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planning.data.Projectdata
+import com.example.planning.ui.feature.project.ProjectScreen
+import com.example.planning.ui.feature.project.ProjectViewModel
+import com.example.planning.ui.items.Dialog
+import com.example.planning.ui.items.ProgressCard
 import com.example.planning.ui.theme.Progressbar
 import com.example.planning.ui.theme.backgroundMain
 import com.example.planning.ui.theme.textcolor
+import com.example.planning.util.Myapp
+import com.example.planning.util.Mysreens
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import dev.burnoo.cokoin.navigation.getNavController
+import dev.burnoo.cokoin.navigation.getNavViewModel
 import kotlinx.coroutines.launch
 
 @Preview
 @Composable
 fun MainScreen() {
-    Scaffold(floatingActionButtonPosition = FabPosition.Center , floatingActionButton = { BottomAdd {} }) {
+    val viewModel = getNavViewModel<MainViewModel>()
+    val viewModelProject = getNavViewModel<ProjectViewModel>()
+    Scaffold(floatingActionButtonPosition = FabPosition.Center, floatingActionButton = {
+        BottomAdd {
+            viewModel.onByClickt()
 
+        }
+    }) {
 
         Surface(modifier = Modifier.fillMaxSize(), color = backgroundMain) {
             Column(
@@ -49,6 +68,16 @@ fun MainScreen() {
                 Toptolbar()
                 Spacer(Modifier.size(16.dp))
                 SimpleTabLayout()
+                if (viewModel.isDialogShown) {
+                    Dialog(onConfirm = {
+                        viewModelProject.addProject()
+                        viewModel.onDismisDialog()
+
+                    }, onDismis = {
+                        viewModel.onDismisDialog()
+
+                    })
+                }
             }
         }
     }
@@ -167,8 +196,7 @@ fun SimpleTabLayout() {
                         .background(backgroundMain)
                 ) { page ->
                     if (tabitem[page] == "کار ها") {
-                        NotProjectView()
-
+                        ProjectScreen()
 
                     } else if (tabitem[page] == "برنامه ریزی") {
                         Text(text = "2", modifier = Modifier.padding(50.dp), color = Color.White)
@@ -185,32 +213,36 @@ fun SimpleTabLayout() {
 
     }
 }
-@OptIn(ExperimentalMaterialApi::class)
+
 @Composable
-fun BottomAdd(onclick : () -> Unit){
+fun BottomAdd(onclick: () -> Unit) {
     FloatingActionButton(
         shape = RoundedCornerShape(38.dp),
         backgroundColor = Progressbar,
-        modifier = Modifier.size(80.dp, 40.dp),
+        modifier = Modifier.size(95.dp, 40.dp),
         onClick = onclick
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 8.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row {
+                Text(
+                    modifier = Modifier.padding(top = 2.dp),
+                    text = "اضافه کردن",
+                    color = Color.White,
+                    style = TextStyle(fontSize = 14.sp),
+                )
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = null,
                     tint = Color.White,
-                    modifier = Modifier.padding(bottom = 5.dp)
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
-                Text(
-                    text = "Add",
-                    color = Color.White,
-                    style = TextStyle(fontSize = 14.sp),
-                )
+
             }
 
         }
@@ -218,6 +250,7 @@ fun BottomAdd(onclick : () -> Unit){
 
     }
 }
+
 @Composable
 fun NotProjectView() {
     Surface(modifier = Modifier.size(650.dp)) {

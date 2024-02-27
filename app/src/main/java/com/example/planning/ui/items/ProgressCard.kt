@@ -22,17 +22,19 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planning.R
+import com.example.planning.data.Projectdata
+import com.example.planning.ui.feature.project.ProjectViewModel
 import com.example.planning.ui.theme.Progressbar
 import com.example.planning.ui.theme.backgroundMain
 import com.example.planning.ui.theme.cardColor
 import com.example.planning.ui.theme.firstpriority
+import dev.burnoo.cokoin.navigation.getNavViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ProgressCard(
-    progress : String,
-    text  :String,
-    navigateToDetail:() -> Unit
+    projectdata: Projectdata,
+    navigateToDetail: () -> Unit
 ) {
     val Progress by remember {
         mutableStateOf(0.5f)
@@ -46,14 +48,13 @@ fun ProgressCard(
         Card(
             shape = RoundedCornerShape(16.dp),
             backgroundColor = cardColor,
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier.padding(horizontal = 20.dp).size(450.dp,270.dp).padding(top = 18.dp)
         ) {
 
             Box(modifier = Modifier.fillMaxSize()) {
 
 
                 Card(
-
                     backgroundColor = cardColor,
                     modifier = Modifier
                         .align(Alignment.CenterStart)
@@ -82,7 +83,7 @@ fun ProgressCard(
                                 listOf(
                                     firstpriority.copy(alpha = 0.2f),
                                     Color.Transparent
-                                ), startX = 0f , endX = 40f
+                                ), startX = 0f, endX = 40f
                             )
                         )
                     )
@@ -90,8 +91,9 @@ fun ProgressCard(
                 Column(modifier = Modifier.padding(start = 50.dp, top = 25.dp, bottom = 25.dp)) {
                     Text(
                         modifier = Modifier
-                            .weight(0.2f).padding(top = 10.dp),
-                        text = text,
+                            .weight(0.2f)
+                            .padding(top = 10.dp),
+                        text = projectdata.name,
                         color = Color.White,
                         style = TextStyle(fontSize = 18.sp),
                         fontWeight = FontWeight.Bold
@@ -111,7 +113,7 @@ fun ProgressCard(
                         )
                         Text(
                             modifier = Modifier.padding(end = 20.dp),
-                            text = "${progress}%",
+                            text = "${projectdata.progressbar}%",
                             color = Progressbar,
                             style = TextStyle(fontSize = 14.sp),
                             fontWeight = FontWeight.Medium
@@ -145,7 +147,7 @@ fun ProgressCard(
                             backgroundColor = backgroundMain,
                             modifier = Modifier
                                 .size(32.dp),
-                            onClick = {navigateToDetail.invoke()}
+                            onClick = { navigateToDetail.invoke() }
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_next),
@@ -162,17 +164,4 @@ fun ProgressCard(
     }
 }
 
-@Preview
-@Composable
-fun PreViewCard() {
-    androidx.compose.material.Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp), color = backgroundMain
-    ) {
-        ProgressCard("test" , "10"){
 
-        }
-
-    }
-}

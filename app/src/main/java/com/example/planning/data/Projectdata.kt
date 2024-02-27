@@ -7,7 +7,9 @@ import androidx.room.PrimaryKey
 data class Projectdata(
     @PrimaryKey
     val name: String,
+    val detail: String,
     val Priority: String,
     val progressbar: Int,
-    val time : ArrayList<String>
+    val timeStart : String,
+    val timeEnd : String
 )
