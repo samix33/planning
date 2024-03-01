@@ -15,6 +15,7 @@ class ProjectViewModel(
     var projectdata = MutableLiveData<List<Projectdata>>()
     val name = MutableLiveData("")
     val detail = MutableLiveData("")
+    val priority = MutableLiveData(2)
 
     fun insertOrUpdate(project: Projectdata) {
         viewModelScope.launch {
@@ -49,7 +50,7 @@ class ProjectViewModel(
             val data = Projectdata(
                 name = name.value.toString(),
                 detail = detail.value.toString(),
-                Priority = "بالا",
+                Priority = priority.value!!,
                 progressbar = 0,
                 timeStart = "",
                 timeEnd = "",

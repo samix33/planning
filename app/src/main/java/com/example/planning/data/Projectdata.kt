@@ -8,7 +8,7 @@ data class Projectdata(
     @PrimaryKey
     val name: String,
     val detail: String,
-    val Priority: String,
+    val Priority: Int,
     val progressbar: Int,
     val timeStart : String,
     val timeEnd : String

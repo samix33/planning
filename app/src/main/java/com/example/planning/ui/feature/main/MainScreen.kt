@@ -1,5 +1,6 @@
 package com.example.planning.ui.feature.main
 
+import android.app.AlertDialog
 import android.util.Log
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.background
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,20 +32,23 @@ import com.example.planning.ui.items.dialog.DialogProject
 import com.example.planning.ui.theme.Progressbar
 import com.example.planning.ui.theme.backgroundMain
 import com.example.planning.ui.theme.textcolor
-import com.example.planning.util.Myapp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import dev.burnoo.cokoin.navigation.getNavViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+import kotlin.properties.Delegates
 @Preview
 @Composable
 fun MainScreen() {
     val page1 = remember {
         mutableStateOf(0)
     }
+    val scope = rememberCoroutineScope()
 
     val viewModel = getNavViewModel<MainViewModel>()
     val viewModelProject = getNavViewModel<ProjectViewModel>()
@@ -64,17 +69,21 @@ fun MainScreen() {
                 Spacer(Modifier.size(16.dp))
                 SimpleTabLayout(page1)
                 if (viewModel.isDialogShown) {
-                    Log.v("Tacdv",page1.value.toString())
-                    if ( page1.value == 1) {
+                    if (page1.value == 0) {
                         DialogProject(onConfirm = {
                             viewModelProject.addProject()
+                            scope.launch {
+                                delay(250)
+                                viewModelProject.getAll()
+                            }
                             viewModel.onDismisDialog()
 
                         }, onDismis = {
                             viewModel.onDismisDialog()
 
                         })
-                    }else if (page1.value == 3){
+
+                    } else if (page1.value == 2) {
                         DialogNotes(onConfirm = {
                             viewModel.onDismisDialog()
 
@@ -82,14 +91,15 @@ fun MainScreen() {
                             viewModel.onDismisDialog()
 
                         })
-                    }else {
+                    } else {
                         DialogNotes(onConfirm = {
                             viewModel.onDismisDialog()
 
                         }, onDismis = {
                             viewModel.onDismisDialog()
 
-                        })}
+                        })
+                    }
 
 
                 }
@@ -137,7 +147,7 @@ fun Toptolbar() {
 
 @Composable
 @OptIn(ExperimentalPagerApi::class)
-fun SimpleTabLayout(page1: MutableState<Int>) {
+fun SimpleTabLayout(page1: MutableState<Int> ) {
     val tabitem = listOf("کار ها", "برنامه ریزی", "یادداشت ها")
     val pagestate = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -210,13 +220,12 @@ fun SimpleTabLayout(page1: MutableState<Int>) {
                         .fillMaxSize()
                         .background(backgroundMain)
                 ) { page ->
+                    page1.value = pagestate.currentPage
+
                     if (tabitem[page] == "کار ها") {
                         ProjectScreen()
-                        page1.value = 1
                     } else if (tabitem[page] == "برنامه ریزی") {
-                        page1.value = 2
                     } else {
-                        page1.value = 3
                         NoteScreen()
 
                     }

@@ -30,7 +30,7 @@ class DetailProjectViewModel(
         val data = Projectdata(
             name = name.value.toString(),
             detail = detail.value.toString(),
-            Priority = Priority.value.toString(),
+            Priority = Priority.value!!.toInt(),
             progressbar = progressbar.value!!.toInt(),
             timeStart = timeStart.value.toString(),
             timeEnd = timeEnd.value.toString(),

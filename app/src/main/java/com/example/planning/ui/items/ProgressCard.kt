@@ -17,18 +17,12 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planning.R
 import com.example.planning.data.Projectdata
-import com.example.planning.ui.feature.project.ProjectViewModel
-import com.example.planning.ui.theme.Progressbar
-import com.example.planning.ui.theme.backgroundMain
-import com.example.planning.ui.theme.cardColor
-import com.example.planning.ui.theme.firstpriority
-import dev.burnoo.cokoin.navigation.getNavViewModel
+import com.example.planning.ui.theme.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -36,19 +30,41 @@ fun ProgressCard(
     projectdata: Projectdata,
     navigateToDetail: () -> Unit
 ) {
+
     val Progress by remember {
         mutableStateOf(0.5f)
     }
+
+
     val animatedProgressBar by animateFloatAsState(
         targetValue = Progress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
     )
+    val color = remember {
+        mutableStateOf<Color>(Color.White)
+    }
 
+    when (projectdata.Priority) {
+        0 -> {
+            color.value = firstpriority
+        }
+        1 -> {
+            color.value = secondpriority
+
+        }
+        2 -> {
+            color.value = Thirdpriority
+
+        }
+    }
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Card(
             shape = RoundedCornerShape(16.dp),
             backgroundColor = cardColor,
-            modifier = Modifier.padding(horizontal = 20.dp).size(450.dp,270.dp).padding(top = 18.dp)
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .size(450.dp, 270.dp)
+                .padding(top = 18.dp)
         ) {
 
             Box(modifier = Modifier.fillMaxSize()) {
@@ -62,18 +78,18 @@ fun ProgressCard(
                         .rotate(180f)
                         .padding(vertical = 30.dp),
                     elevation = 0.dp,
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(8.dp),
 
                     border = BorderStroke(
                         8.dp,
                         Brush.horizontalGradient(
                             colors = listOf(
-                                firstpriority.copy(alpha = 0.8f),
+                                color.value.copy(alpha = 0.6f),
                                 Color.Transparent,
                                 Color.Transparent,
                                 Color.Transparent
                             ),
-                            startX = 0f, endX = 30f,
+                            startX = 0f, endX = 25f,
                         )
                     )
                 ) {
@@ -81,9 +97,13 @@ fun ProgressCard(
                         modifier = Modifier.background(
                             brush = Brush.horizontalGradient(
                                 listOf(
-                                    firstpriority.copy(alpha = 0.2f),
-                                    Color.Transparent
-                                ), startX = 0f, endX = 40f
+                                    color.value.copy(alpha = 0.1f),
+                                    color.value.copy(alpha = 0.05f),
+                                    color.value.copy(alpha = 0.02f),
+                                    Color.Transparent,
+                                    Color.Transparent,
+                                    Color.Transparent,
+                                ), startX = 0f, endX = 55f
                             )
                         )
                     )
@@ -135,18 +155,16 @@ fun ProgressCard(
 
 
 
-                    Row(
+                    Box(
                         modifier = Modifier.weight(0.2f),
-                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column() {
 
-                        }
                         Card(
                             shape = CircleShape,
                             backgroundColor = backgroundMain,
                             modifier = Modifier
-                                .size(32.dp),
+                                .padding(top = 20.dp)
+                                ,
                             onClick = { navigateToDetail.invoke() }
                         ) {
                             Icon(
@@ -154,7 +172,8 @@ fun ProgressCard(
                                 contentDescription = null,
                                 tint = Progressbar,
                                 modifier = Modifier
-                                    .padding(9.dp)
+                                    .padding(8.dp)
+                                    .padding(horizontal = 10.dp)
                             )
                         }
                     }
@@ -163,5 +182,6 @@ fun ProgressCard(
         }
     }
 }
+
 
 
